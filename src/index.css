@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Exo+2:wght@400;600;700;800&family=Cairo:wght@400;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Exo 2", sans-serif;
+  --font-arabic: "Cairo", sans-serif;
+  
+  --color-velora-emerald: #10b981;
+  --color-velora-violet: #8b5cf6;
+  --color-velora-dark: #050505;
+}
+
+:root {
+  --app-bg: #050505;
+  --foreground: #f7faf9;
+  --muted-foreground: rgba(240, 255, 250, 0.52);
+  --surface-primary: #060709;
+  --surface-secondary: rgba(255, 255, 255, 0.04);
+}
+
+:root[data-theme='light'] {
+  --app-bg: #eef6f4;
+  --foreground: #0a1613;
+  --muted-foreground: rgba(10, 22, 19, 0.62);
+  --surface-primary: rgba(255, 255, 255, 0.96);
+  --surface-secondary: rgba(255, 255, 255, 0.82);
+}
+
+@layer base {
+  html {
+    background: var(--app-bg);
+  }
+
+  body {
+    background: var(--app-bg);
+    color: var(--foreground);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    transition: background-color 250ms ease, color 250ms ease;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+  
+  .bg-gradient-premium {
+    @apply bg-gradient-to-br from-velora-violet/20 via-transparent to-velora-emerald/20;
+  }
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-velora-emerald/50 transition-colors;
+}

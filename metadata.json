@@ -1,0 +1,9 @@
+{
+  "name": "Velora Premium Tech Marketplace",
+  "description": "A futuristic, multi-vendor global technology marketplace with AI-powered recommendations and real-time features.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}

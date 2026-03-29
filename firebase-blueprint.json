@@ -1,0 +1,134 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A customer or admin on the platform.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "admin", "vendor"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "addresses": { "type": "array", "items": { "type": "object" } }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Vendor": {
+      "title": "Vendor",
+      "description": "A seller on the platform.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "storeName": { "type": "string" },
+        "description": { "type": "string" },
+        "logoURL": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "suspended"] },
+        "rating": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "storeName", "status"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "A technology product for sale.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "currency": { "type": "string" },
+        "category": { "type": "string" },
+        "brand": { "type": "string" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "vendorId": { "type": "string" },
+        "stock": { "type": "number" },
+        "specifications": { "type": "object" },
+        "rating": { "type": "number" },
+        "reviewCount": { "type": "number" },
+        "discount": { "type": "number" },
+        "variants": { 
+          "type": "object", 
+          "properties": {
+            "colors": { "type": "array", "items": { "type": "string" } },
+            "storage": { "type": "array", "items": { "type": "string" } },
+            "connectivity": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "freeShipping": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "price", "vendorId", "category"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A purchase record.",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string" },
+        "items": { "type": "array", "items": { "type": "object" } },
+        "totalAmount": { "type": "number" },
+        "currency": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "processing", "shipped", "delivered", "cancelled"] },
+        "paymentMethod": { "type": "string" },
+        "shippingAddress": { "type": "object" },
+        "carrier": { "type": "string" },
+        "trackingNumber": { "type": "string" },
+        "estimatedDelivery": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerId", "items", "totalAmount", "status"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "A product review from a customer.",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["productId", "customerId", "rating"]
+    },
+    "WishlistItem": {
+      "title": "WishlistItem",
+      "description": "A product saved by a user for later.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "productPrice": { "type": "number" },
+        "productImage": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "productId"]
+    },
+    "Payout": {
+      "title": "Payout",
+      "description": "A payment record to a vendor.",
+      "type": "object",
+      "properties": {
+        "vendorId": { "type": "string" },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "processed", "failed"] },
+        "method": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["vendorId", "amount", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "User", "description": "User profiles" },
+    "/vendors/{vendorId}": { "schema": "Vendor", "description": "Vendor profiles" },
+    "/products/{productId}": { "schema": "Product", "description": "Product catalog" },
+    "/orders/{orderId}": { "schema": "Order", "description": "Customer orders" },
+    "/products/{productId}/reviews/{reviewId}": { "schema": "Review", "description": "Product reviews" },
+    "/users/{userId}/wishlist/{wishlistId}": { "schema": "WishlistItem", "description": "User wishlist items" },
+    "/payouts/{payoutId}": { "schema": "Payout", "description": "Vendor payouts" }
+  }
+}
